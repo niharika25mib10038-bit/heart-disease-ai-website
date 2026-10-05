@@ -1,0 +1,8 @@
+Place the trained model here:
+
+final_heart_disease_model.pkl
+
+Source:
+outputs/final_heart_disease_model.pkl
+
+Do not rename the file.
