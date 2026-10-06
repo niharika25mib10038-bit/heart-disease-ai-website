@@ -9,7 +9,9 @@ import {
   ArrowRight,
   RotateCcw,
 } from "lucide-react";
-const API_URL = "https://heart-disease-ai-backend-cu5q.onrender.com";
+
+const API_URL =
+  "https://heart-disease-ai-backend-cu5q.onrender.com";
 
 const initialForm = {
   age: 55,
@@ -26,6 +28,8 @@ const initialForm = {
   ca: 0,
   thal: 2,
 };
+
+/* ================= FIELD COMPONENT ================= */
 
 function Field({
   label,
@@ -51,6 +55,8 @@ function Field({
     </label>
   );
 }
+
+/* ================= SELECT COMPONENT ================= */
 
 function SelectField({
   label,
@@ -78,11 +84,15 @@ function SelectField({
   );
 }
 
+/* ================= MAIN APP ================= */
+
 export default function App() {
   const [form, setForm] = useState(initialForm);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  /* ================= HANDLE INPUT ================= */
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -93,6 +103,8 @@ export default function App() {
     }));
   }
 
+  /* ================= PREDICTION ================= */
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -101,13 +113,16 @@ export default function App() {
     setResult(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/predict`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+      const response = await fetch(
+        `${API_URL}/api/predict`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
       const data = await response.json();
 
@@ -125,18 +140,25 @@ export default function App() {
     }
   }
 
+  /* ================= RESET ================= */
+
   function reset() {
     setForm(initialForm);
     setResult(null);
     setError("");
   }
 
+  /* ================= UI ================= */
+
   return (
     <div className="app-shell">
 
-      {/* ================= HEADER ================= */}
+      {/* ==================================================
+          HEADER
+      ================================================== */}
 
       <header className="topbar">
+
         <div className="brand">
 
           <div className="brand-icon">
@@ -145,6 +167,7 @@ export default function App() {
 
           <div>
             <strong>Heart Disease AI</strong>
+
             <small>
               Explainable ML Research Dashboard
             </small>
@@ -156,17 +179,22 @@ export default function App() {
           <ShieldCheck size={16} />
           Research Mode
         </div>
+
       </header>
 
-      {/* ================= MAIN ================= */}
+      {/* ==================================================
+          MAIN
+      ================================================== */}
 
       <main>
 
-        {/* ================= HERO ================= */}
+        {/* ==================================================
+            HERO
+        ================================================== */}
 
         <section className="hero">
 
-          <div>
+          <div className="hero-content">
 
             <p className="eyebrow">
               MACHINE LEARNING • HEALTH INFORMATICS
@@ -185,17 +213,24 @@ export default function App() {
             </p>
 
             <div className="model-tags">
+
               <span>XGBoost</span>
+
               <span>Random Forest</span>
+
               <span>Logistic Regression</span>
+
               <span>SVC</span>
+
             </div>
 
           </div>
 
           <div className="hero-card">
 
-            <Activity size={30} />
+            <div className="hero-card-icon">
+              <Activity size={30} />
+            </div>
 
             <strong>Explainable AI</strong>
 
@@ -208,11 +243,15 @@ export default function App() {
 
         </section>
 
-        {/* ================= DASHBOARD ================= */}
+        {/* ==================================================
+            DASHBOARD
+        ================================================== */}
 
         <section className="dashboard-grid">
 
-          {/* ================= INPUT FORM ================= */}
+          {/* ==================================================
+              INPUT FORM
+          ================================================== */}
 
           <form
             className="card form-card"
@@ -222,11 +261,13 @@ export default function App() {
             <div className="card-heading">
 
               <div>
+
                 <p className="eyebrow">
                   PATIENT PARAMETERS
                 </p>
 
                 <h2>Clinical inputs</h2>
+
               </div>
 
               <button
@@ -242,12 +283,16 @@ export default function App() {
 
             <div className="form-grid">
 
+              {/* AGE */}
+
               <Field
                 label="Age"
                 name="age"
                 value={form.age}
                 onChange={handleChange}
               />
+
+              {/* SEX */}
 
               <SelectField
                 label="Sex"
@@ -259,6 +304,8 @@ export default function App() {
                   [1, "Male (1)"],
                 ]}
               />
+
+              {/* CHEST PAIN */}
 
               <SelectField
                 label="Chest pain type"
@@ -273,6 +320,8 @@ export default function App() {
                 ]}
               />
 
+              {/* BLOOD PRESSURE */}
+
               <Field
                 label="Resting blood pressure"
                 name="trestbps"
@@ -281,6 +330,8 @@ export default function App() {
                 help="mm Hg"
               />
 
+              {/* CHOLESTEROL */}
+
               <Field
                 label="Cholesterol"
                 name="chol"
@@ -288,6 +339,8 @@ export default function App() {
                 onChange={handleChange}
                 help="mg/dL"
               />
+
+              {/* FASTING BLOOD SUGAR */}
 
               <SelectField
                 label="Fasting blood sugar"
@@ -299,6 +352,8 @@ export default function App() {
                   [1, "> 120 mg/dL"],
                 ]}
               />
+
+              {/* RESTING ECG */}
 
               <SelectField
                 label="Resting ECG"
@@ -312,6 +367,8 @@ export default function App() {
                 ]}
               />
 
+              {/* MAX HEART RATE */}
+
               <Field
                 label="Maximum heart rate"
                 name="thalach"
@@ -319,6 +376,8 @@ export default function App() {
                 onChange={handleChange}
                 help="bpm"
               />
+
+              {/* EXERCISE ANGINA */}
 
               <SelectField
                 label="Exercise-induced angina"
@@ -331,12 +390,16 @@ export default function App() {
                 ]}
               />
 
+              {/* OLDPEAK */}
+
               <Field
                 label="ST depression (oldpeak)"
                 name="oldpeak"
                 value={form.oldpeak}
                 onChange={handleChange}
               />
+
+              {/* SLOPE */}
 
               <SelectField
                 label="Slope"
@@ -350,12 +413,16 @@ export default function App() {
                 ]}
               />
 
+              {/* MAJOR VESSELS */}
+
               <Field
                 label="Major vessels (ca)"
                 name="ca"
                 value={form.ca}
                 onChange={handleChange}
               />
+
+              {/* THAL */}
 
               <Field
                 label="Thal"
@@ -366,15 +433,22 @@ export default function App() {
 
             </div>
 
+            {/* PREDICT BUTTON */}
+
             <button
+              type="submit"
               className="predict-btn"
               disabled={loading}
             >
-              {loading
-                ? "Running model..."
-                : "Predict result"}
+
+              <span>
+                {loading
+                  ? "Running model..."
+                  : "Predict result"}
+              </span>
 
               <ArrowRight size={18} />
+
             </button>
 
             <p className="form-note">
@@ -384,7 +458,9 @@ export default function App() {
 
           </form>
 
-          {/* ================= RESULT SECTION ================= */}
+          {/* ==================================================
+              RESULT SECTION
+          ================================================== */}
 
           <aside className="result-column">
 
@@ -394,7 +470,7 @@ export default function App() {
               }`}
             >
 
-              {/* EMPTY STATE */}
+              {/* ================= EMPTY STATE ================= */}
 
               {!result && !error && (
                 <div className="empty-result">
@@ -407,7 +483,9 @@ export default function App() {
                     MODEL OUTPUT
                   </p>
 
-                  <h2>Awaiting prediction</h2>
+                  <h2>
+                    Awaiting prediction
+                  </h2>
 
                   <p>
                     Enter the parameters and run the
@@ -417,7 +495,7 @@ export default function App() {
                 </div>
               )}
 
-              {/* ERROR */}
+              {/* ================= ERROR ================= */}
 
               {error && (
                 <div className="error-box">
@@ -443,7 +521,7 @@ export default function App() {
                 </div>
               )}
 
-              {/* RESULT */}
+              {/* ================= RESULT ================= */}
 
               {result && (
                 <>
@@ -452,9 +530,11 @@ export default function App() {
                     MODEL OUTPUT
                   </p>
 
-                  <h2>{result.label}</h2>
+                  <h2>
+                    {result.label}
+                  </h2>
 
-                  {/* CORRECTED PROBABILITY */}
+                  {/* PROBABILITY */}
 
                   <div className="probability">
 
@@ -468,7 +548,7 @@ export default function App() {
 
                   </div>
 
-                  {/* CORRECTED METER */}
+                  {/* PROBABILITY METER */}
 
                   <div className="meter">
 
@@ -480,10 +560,13 @@ export default function App() {
 
                   </div>
 
+                  {/* RESULT METADATA */}
+
                   <div className="result-meta">
 
                     <div>
                       <span>Model</span>
+
                       <strong>
                         {result.model}
                       </strong>
@@ -491,6 +574,7 @@ export default function App() {
 
                     <div>
                       <span>Primary learner</span>
+
                       <strong>
                         {result.primary_model}
                       </strong>
@@ -498,12 +582,15 @@ export default function App() {
 
                     <div>
                       <span>Validation</span>
+
                       <strong>
                         5-fold Stratified CV
                       </strong>
                     </div>
 
                   </div>
+
+                  {/* DISCLAIMER */}
 
                   <p className="disclaimer">
                     {result.disclaimer}
@@ -514,7 +601,9 @@ export default function App() {
 
             </div>
 
-            {/* ================= MINI CARDS ================= */}
+            {/* ==================================================
+                MINI INFORMATION CARDS
+            ================================================== */}
 
             <div className="mini-grid">
 
@@ -522,7 +611,9 @@ export default function App() {
 
                 <BarChart3 size={20} />
 
-                <strong>4 models</strong>
+                <strong>
+                  4 models
+                </strong>
 
                 <span>
                   Compared + ensembled
@@ -534,7 +625,9 @@ export default function App() {
 
                 <ShieldCheck size={20} />
 
-                <strong>Leakage-safe</strong>
+                <strong>
+                  Leakage-safe
+                </strong>
 
                 <span>
                   Pipeline preprocessing
@@ -548,9 +641,13 @@ export default function App() {
 
         </section>
 
-        {/* ================= INFORMATION ================= */}
+        {/* ==================================================
+            INFORMATION SECTION
+        ================================================== */}
 
         <section className="info-grid">
+
+          {/* PIPELINE */}
 
           <div className="info-card">
 
@@ -558,23 +655,37 @@ export default function App() {
               PIPELINE
             </p>
 
-            <h3>How it works</h3>
+            <h3>
+              How it works
+            </h3>
 
             <div className="steps">
 
-              <span>01 Data input</span>
+              <span>
+                01 Data input
+              </span>
 
-              <span>02 Preprocessing</span>
+              <span>
+                02 Preprocessing
+              </span>
 
-              <span>03 Four classifiers</span>
+              <span>
+                03 Four classifiers
+              </span>
 
-              <span>04 Soft voting</span>
+              <span>
+                04 Soft voting
+              </span>
 
-              <span>05 Prediction</span>
+              <span>
+                05 Prediction
+              </span>
 
             </div>
 
           </div>
+
+          {/* EXPLAINABILITY */}
 
           <div className="info-card">
 
@@ -582,7 +693,9 @@ export default function App() {
               EXPLAINABILITY
             </p>
 
-            <h3>Why this model?</h3>
+            <h3>
+              Why this model?
+            </h3>
 
             <p>
               The ML project includes XGBoost feature
@@ -596,7 +709,9 @@ export default function App() {
 
       </main>
 
-      {/* ================= FOOTER ================= */}
+      {/* ==================================================
+          FOOTER
+      ================================================== */}
 
       <footer>
 
